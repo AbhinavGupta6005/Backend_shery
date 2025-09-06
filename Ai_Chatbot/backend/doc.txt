@@ -1,0 +1,10 @@
+in-built events => two
+custom events
+
+
+io   =>  server
+socket   =>  Single User
+
+
+on => event listen krna
+emit => event fire krna
