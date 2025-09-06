@@ -1,7 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 require('dotenv').config();
 
-const ai = new GoogleGenAI(process.env.GEMINI_API);
+const ai = new GoogleGenAI({});
 
 // async function main() {
 //   const response = await ai.models.generateContent({
@@ -13,11 +13,11 @@ const ai = new GoogleGenAI(process.env.GEMINI_API);
 
 async function generateResponse(prompt){
     const response = await ai.models.generateContent({
-        model: "gemini-pro",
+        model: "gemini-1.5-flash",
         contents: prompt, 
     })
 
-    return response.text();
+    return response.text;
 }
 
 // await main();
