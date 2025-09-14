@@ -13,14 +13,15 @@ function App() {
     setSocket(socketInstance);
 
     socketInstance.on("ai-message-response", (response) => {
-      const botmessage = {
-        id: Date.now() + 1,
-        text: response,
-        timestamp: new Date().toLocaleTimeString(),
-        sender: "ai"  
-      }
-      setConversationHistory(prev => [...prev, botmessage])
-    })
+  const botmessage = {
+    id: Date.now() + 1,
+    text: response.response, // ✅ FIXED
+    timestamp: new Date().toLocaleTimeString(),
+    sender: "ai"
+  };
+  setConversationHistory(prev => [...prev, botmessage]);
+});
+
 
     // Cleanup on unmount
     return () => {
@@ -38,26 +39,27 @@ function App() {
     setConversationHistory([welcomeMessage])
   }, []) 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!inputMessage.trim()) return
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!inputMessage.trim()) return;
 
-    // Add user message to conversation
-    const newMessage = {
-      text: inputMessage,
-      sender: 'user',
-      timestamp: new Date().toLocaleTimeString()
-    }
+  // Add user message to conversation
+  const newMessage = {
+    text: inputMessage,
+    sender: 'user',
+    timestamp: new Date().toLocaleTimeString()
+  };
 
-    setConversationHistory(prev => [...prev, newMessage])
-    
-    // Emit message to socket if socket exists
-    if (socket) {
-      socket.emit('ai-message', inputMessage)
-    }
-    
-    setInputMessage('') // Clear input after sending
+  setConversationHistory(prev => [...prev, newMessage]);
+
+  // ✅ Emit object with prompt field
+  if (socket) {
+    socket.emit('ai-message', { prompt: inputMessage });
   }
+
+  setInputMessage(''); // Clear input after sending
+};
+
 
   return (
     <div className="chat-container">
