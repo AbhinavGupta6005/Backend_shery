@@ -12,5 +12,5 @@ async function generateResponce(content){
 }
 
 module.exports = {
-    generateResponce,
+    generateResponce
 }
