@@ -23,6 +23,19 @@ async function generateResponse(content){
 //     return text; 
 }
 
+async function generateVector(content){
+    const response = await ai.models.embedContent({
+        model:"gemini-embedding-001",
+        contents: content,
+        config:{
+            outputDimensionality: 1024
+        }
+    })
+
+    return response.embeddings;
+}
+
 module.exports = {
-    generateResponse
+    generateResponse,
+    generateVector
 }
