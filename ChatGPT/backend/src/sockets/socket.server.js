@@ -45,7 +45,7 @@ function initSocketServer(httpServer) {
 
       const memory = await queryMemory({
         queryVector: vectors,
-        limit: 1,
+        limit: 3,
         metadata : {}
       }) 
 
@@ -70,13 +70,27 @@ function initSocketServer(httpServer) {
           .lean()
       ).reverse();
 
-      // 4️. Generate AI response
-      const response = await aiService.generateResponse(
-        chatHistory.map((item) => ({
+      const stm = chatHistory.map(item=>{
+        return {
           role: item.role,
-          parts: [{ text: item.content }],
-        }))
-      );
+          parts: [{text: item.content}]
+        }
+      })
+
+
+      const ltm = [
+        {
+          role: "user",
+          parts: [{text:
+            `there are som eprevious message from the chat, use them to generate the response
+            ${memory.map(item=>item.metadata.text).join("\n")}`
+          }]
+        }
+      ]
+
+
+      // 4️. Generate AI response
+      const response = await aiService.generateResponse([...ltm, ...stm]);
 
       // 5️. Save AI response to DB
       const responseMessage = await messageModel.create({
