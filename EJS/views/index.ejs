@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,body{
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            color: aliceblue;
+        }
+        h1,p{
+            text-align: center;
+            margin-top: 20%;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- <% for(let i =0; i < 5; i++) { %>
+        <p> Item <%= i + 1 %> </p>
+    <%} %> -->
+
+    <% messages.forEach(message => {
+        %> <h1> <%= message %> </h1> <%
+    }) %>
+</body>
+</html>
